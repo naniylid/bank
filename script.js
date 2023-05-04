@@ -82,8 +82,6 @@ const displayTransactions = function (transactions) {
   });
 };
 
-displayTransactions(account1.transactions);
-
 const createNicknames = function (accs) {
   accs.forEach(function (acc) {
     acc.nickName = acc.userName
@@ -94,3 +92,121 @@ const createNicknames = function (accs) {
   });
 };
 createNicknames(accounts);
+
+//Card balance
+const displayBalance = function (account) {
+  const balance = account.transactions.reduce((acc, trans) => acc + trans, 0);
+  account.balance = balance;
+  labelBalance.textContent = `${balance}$`;
+};
+
+const displayTotal = function (account) {
+  //how much money came in
+  const depositesTotal = account.transactions
+    .filter(trans => trans > 0)
+    .reduce((acc, trans) => acc + trans, 0);
+  labelSumIn.textContent = `${depositesTotal}$`;
+  //how much money has gone
+  const withdrawalTotal = account.transactions
+    .filter(trans => trans < 0)
+    .reduce((acc, trans) => acc + trans, 0);
+  labelSumOut.textContent = `${withdrawalTotal}$`;
+  //interest earned
+  const interestTotal = account.transactions
+    .filter(trans => trans > 0)
+    .map(depos => (depos * account.interest) / 100)
+    .filter(interest => interest >= 5)
+    .reduce((acc, interest) => acc + interest, 0);
+  labelSumInterest.textContent = `${interestTotal}$`;
+};
+
+//Enter login and pin
+const updateUi = function (account) {
+  //Display transactions
+  displayTransactions(account.transactions);
+  //Display balance
+  displayBalance(account);
+  //Display total
+  displayTotal(account);
+};
+let currentAccount;
+
+//Event handlers
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    account => account.nickName === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //Display UI and welcome message
+    containerApp.style.opacity = 100;
+    labelWelcome.textContent = `Рады, что вы снова c нами ${
+      currentAccount.userName.split(' ')[0]
+    }!`;
+    //Clear inputs
+    inputLoginUsername.value = '';
+    inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    updateUi(currentAccount);
+  }
+});
+
+//Operation transfer
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const transferAmount = Number(inputTransferAmount.value);
+  const recipientNickname = inputTransferTo.value;
+  const recipientAccount = accounts.find(
+    account => account.nickName === recipientNickname
+  );
+  //Clear inputs
+  inputTransferTo.value = '';
+  inputTransferAmount.value = '';
+  //Transaction
+  if (
+    transferAmount > 0 &&
+    currentAccount.balance >= transferAmount &&
+    recipientAccount &&
+    currentAccount.nickName !== recipientAccount?.nickName
+  ) {
+    currentAccount.transactions.push(-transferAmount);
+    recipientAccount.transactions.push(transferAmount);
+    updateUi(currentAccount);
+  }
+});
+
+//Close an account
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (
+    inputCloseUsername.value === currentAccount.nickName &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const currentAccountIndex = accounts.findIndex(
+      account => account.nickName === currentAccount.nickName
+    );
+    accounts.splice(currentAccountIndex, 1);
+    containerApp.style.opacity = 0;
+    labelWelcome.textContent = 'Войдите в свой аккаунт';
+  }
+  inputCloseUsername.value = '';
+  inputClosePin.value = '';
+});
+
+//Loan request
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const loanAmount = Number(inputLoanAmount.value);
+
+  if (
+    loanAmount > 0 &&
+    currentAccount.transactions.some(trans => trans >= (loanAmount * 10) / 100)
+  ) {
+    currentAccount.transactions.push(loanAmount);
+    updateUi(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});

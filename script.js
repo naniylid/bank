@@ -65,10 +65,14 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayTransactions = function (transactions) {
+const displayTransactions = function (transactions, sort = false) {
   containerTransactions.innerHTML = '';
+  //sort transactions
+  const transacs = sort
+    ? transactions.slice().sort((x, y) => x - y)
+    : transactions;
 
-  transactions.forEach(function (trans, index) {
+  transacs.forEach(function (trans, index) {
     const transType = trans > 0 ? 'deposit' : 'withdrawal';
     const transactionRow = `
 <div class="transactions__row">
@@ -209,4 +213,24 @@ btnLoan.addEventListener('click', function (e) {
     updateUi(currentAccount);
   }
   inputLoanAmount.value = '';
+});
+
+//sort transactions
+let transactionSorted = false;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayTransactions(currentAccount.transactions, !transactionSorted);
+  transactionSorted = !transactionSorted;
+});
+
+//Array.from() example
+const logoImage = document.querySelector('.logo');
+logoImage.addEventListener('click', function (e) {
+  const transactionsUi = document.querySelectorAll('.transactions__value');
+  console.log(transactionsUi);
+  const transactionsUiArray = Array.from(transactionsUi, elem =>
+    Number(elem.textContent)
+  );
+  console.log(transactionsUiArray);
 });

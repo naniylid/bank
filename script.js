@@ -251,9 +251,9 @@ const displayTotal = function (account) {
 };
 
 //Enter login and pin
-const updateUi = function (account) {
+//const updateUi = function (account) {
   // Display transactions
-  displayTransactions(account);
+// displayTransactions(account);
 
   // Display balance
   displayBalance(account);

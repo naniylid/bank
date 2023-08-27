@@ -194,12 +194,12 @@ const createNicknames = function (accs) {
 createNicknames(accounts);
 // console.log(accounts);
 
-// const userName = 'Oliver Avila'; // nickname = 'oa'
-// const nickname = userName
-//   .toLowerCase()
-//   .split(' ')
-//   .map(word => word[0])
-//   .join('');
+const userName = 'Oliver Avila'; // nickname = 'oa'
+const nickname = userName
+  .toLowerCase()
+  .split(' ')
+  .map(word => word[0])
+  .join('');
 
 // console.log(nickname);
 

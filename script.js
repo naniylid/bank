@@ -250,10 +250,10 @@ const displayTotal = function (account) {
   );
 };
 
-//Enter login and pin
-//const updateUi = function (account) {
-  // Display transactions
-// displayTransactions(account);
+Enter login and pin
+const updateUi = function (account) {
+  Display transactions
+displayTransactions(account);
 
   // Display balance
   displayBalance(account);
@@ -264,10 +264,10 @@ const displayTotal = function (account) {
 
 let currentAccount, currentLogOutTimer;
 
-// Always logged in
-// currentAccount = account1;
-// updateUi(currentAccount);
-// containerApp.style.opacity = 100;
+Always logged in
+currentAccount = account1;
+updateUi(currentAccount);
+containerApp.style.opacity = 100;
 
 const startLogoutTimer = function () {
   const logOutTimerCallback = function () {

@@ -144,7 +144,7 @@ const formatCurrency = function (value, locale, currency) {
 
 const displayTransactions = function (account, sort = false) {
   containerTransactions.innerHTML = '';
-  //sort transactions
+
   const transacs = sort
     ? account.transactions.slice().sort((x, y) => x - y)
     : account.transactions;
@@ -186,7 +186,6 @@ const createNicknames = function (accs) {
 
 createNicknames(accounts);
 
-//Card balance
 const displayBalance = function (account) {
   const balance = account.transactions.reduce((acc, trans) => acc + trans, 0);
   account.balance = balance;
@@ -199,7 +198,6 @@ const displayBalance = function (account) {
 };
 
 const displayTotal = function (account) {
-  //how much money came in
   const depositesTotal = account.transactions
     .filter(trans => trans > 0)
     .reduce((acc, trans) => acc + trans, 0);
@@ -208,7 +206,7 @@ const displayTotal = function (account) {
     account.locale,
     account.currency
   );
-  //how much money has gone
+
   const withdrawalsTotal = account.transactions
     .filter(trans => trans < 0)
     .reduce((acc, trans) => acc + trans, 0);
@@ -217,7 +215,7 @@ const displayTotal = function (account) {
     account.locale,
     account.currency
   );
-  //interest earned
+
   const interestTotal = account.transactions
     .filter(trans => trans > 0)
     .map(depos => (depos * account.interest) / 100)
@@ -233,7 +231,6 @@ const displayTotal = function (account) {
   );
 };
 
-//Enter login and pin
 const updateUi = function (account) {
   // Display transactions
   displayTransactions(account);
@@ -318,7 +315,7 @@ btnLogin.addEventListener('click', function (e) {
     updateUi(currentAccount);
   }
 });
-//Operation transfer
+
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const transferAmount = +inputTransferAmount.value;
@@ -326,7 +323,6 @@ btnTransfer.addEventListener('click', function (e) {
   const recipientAccount = accounts.find(
     account => account.nickname === recipientNickname
   );
-  //Clear inputs
   inputTransferTo.value = '';
   inputTransferAmount.value = '';
 

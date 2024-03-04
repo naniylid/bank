@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="style.css" />
     <title>Просто Банк</title>
   </head>
+
   <body>
     <!-- Верхняя навигация -->
     <nav>
@@ -24,13 +25,13 @@
       <form class="login">
         <input
           type="text"
-          placeholder="user"
+          placeholder="test user: ci"
           class="login__input login__input--user"
         />
         <!-- В реальных приложениях используется type="password" -->
         <input
           type="text"
-          placeholder="PIN"
+          placeholder="PIN: 1111"
           maxlength="4"
           class="login__input login__input--pin"
         />
@@ -81,7 +82,11 @@
       <div class="operation operation--transfer">
         <h2>Перевести деньги</h2>
         <form class="form form--transfer">
-          <input type="text" class="form__input form__input--to" />
+          <input
+            type="text"
+            class="form__input form__input--to"
+            placeholder="test: as"
+          />
           <input type="number" class="form__input form__input--amount" />
           <button class="form__btn form__btn--transfer">&rarr;</button>
           <label class="form__label">Получатель</label>

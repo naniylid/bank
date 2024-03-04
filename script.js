@@ -131,11 +131,6 @@ const formatTransactionDate = function (date, locale) {
   if (daysPassed === 1) return 'Вчера';
   if (daysPassed <= 5) return `${daysPassed} дня назад`;
   else {
-    // const day = `${date.getDate()}`.padStart(2, '0');
-    // const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    // const year = date.getFullYear();
-
-    // return `${day}/${month}/${year}`;
     return new Intl.DateTimeFormat(locale).format(date);
   }
 };
@@ -179,8 +174,6 @@ const displayTransactions = function (account, sort = false) {
   });
 };
 
-// console.log(containerTransactions.innerHTML);
-
 const createNicknames = function (accs) {
   accs.forEach(function (acc) {
     acc.nickname = acc.userName
@@ -192,16 +185,6 @@ const createNicknames = function (accs) {
 };
 
 createNicknames(accounts);
-// console.log(accounts);
-
-// const userName = 'Oliver Avila'; // nickname = 'oa'
-// const nickname = userName
-//   .toLowerCase()
-//   .split(' ')
-//   .map(word => word[0])
-//   .join('');
-
-// console.log(nickname);
 
 //Card balance
 const displayBalance = function (account) {
@@ -264,11 +247,6 @@ const updateUi = function (account) {
 
 let currentAccount, currentLogOutTimer;
 
-// Always logged in
-// currentAccount = account1;
-// updateUi(currentAccount);
-// containerApp.style.opacity = 100;
-
 const startLogoutTimer = function () {
   const logOutTimerCallback = function () {
     const minutes = String(Math.trunc(time / 60)).padStart(2, '0');
@@ -313,12 +291,6 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.userName.split(' ')[0]
     }!`;
 
-    // const now = new Date();
-    // const day = `${now.getDate()}`.padStart(2, '0');
-    // const month = `${now.getMonth() + 1}`.padStart(2, '0');
-    // const year = now.getFullYear();
-    // labelDate.textContent = `${day}/${month}/${year}`;
-
     const now = new Date();
     const options = {
       hour: 'numeric',
@@ -328,8 +300,6 @@ btnLogin.addEventListener('click', function (e) {
       year: 'numeric',
       weekday: 'long',
     };
-    // const locale = navigator.language;
-    // console.log(locale);
 
     labelDate.textContent = new Intl.DateTimeFormat(
       currentAccount.locale,
@@ -430,31 +400,3 @@ btnSort.addEventListener('click', function (e) {
   displayTransactions(currentAccount, !transactionsSorted);
   transactionsSorted = !transactionsSorted;
 });
-
-// Array.from() example
-
-// const logoImage = document.querySelector('.logo');
-// logoImage.addEventListener('click', function () {
-//   const transactionsUi = document.querySelectorAll('.transactions__value');
-//   console.log(transactionsUi);
-//   // const transactionsUiArray = Array.from(transactionsUi);
-//   // console.log(transactionsUiArray.map(elem => Number(elem.textContent)));
-//   const transactionsUiArray = Array.from(transactionsUi, elem =>
-//     +(elem.textContent)
-//   );
-//   console.log(transactionsUiArray);
-// });
-
-// Colored transaction list
-
-// const logoImage = document.querySelector('.logo');
-// logoImage.addEventListener('click', function () {
-//   [...document.querySelectorAll('.transactions__row')].forEach(function (
-//     row,
-//     i
-//   ) {
-//     if (i % 4 === 0) {
-//       row.style.backgroundColor = 'grey';
-//     }
-//   });
-// });
